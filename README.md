@@ -22,5 +22,7 @@ Email: philip.chen@ieee.org
  
    [1] Tao Chen, Lijie Wang and C. L. Philip Chen, "Sparse Bayesian Broad Learning System via Adaptive Lasso Priors for Robust Regression," IEEE Transactions on Neural Networks and Learning Systems.
 
+ 
+If you have any questions, please do not hesitate to contact the first author.
 
    
