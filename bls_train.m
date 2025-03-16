@@ -50,19 +50,10 @@ mu_old=zeros(k,1);%初始化W均值与方差
 VARw_old=eye(size(T3,2));
 sig_old=abs(randn(k,1));%初始化sigma、eta和rho
 eta_old=abs(randn(k,1));
-
-for s=1:k
-    if sig_old(s,1)==0
-        sig_old(s,1)=10^-5;
-    end
-    if eta_old(s,1)==0
-        eta_old(s,1)=10^-5;
-    end
-end
 VAReta_old=ones(k,1);
 rho_old=randn(1,1);
 t=1;
-L_old= norm(train_y-T3*mu_old,2)+(2/rho_old)*norm(diag(eta_old)*mu_old,1);
+% L_old= norm(train_y-T3*mu_old,2)+(2/rho_old)*norm(diag(eta_old)*mu_old,1);
 converged = false;
 while  ~converged
     t=t+1;
@@ -74,17 +65,18 @@ while  ~converged
         VAReta_new(i,1)=(c(i,1)+1)/((abs(mu_new(i,1))+d(i,1))^2);
     end
         rho_new=(a+size(train_y,1)/2)/(abs((train_y-T3*mu_new)'*(train_y-T3*mu_new))+trace(T3*VARw_new*T3'));
-        L_new= norm(train_y-T3*mu_new,2)+(2/rho_new)*norm(diag(eta_new)*mu_new,1);
-        kesai=(abs(L_new-L_old))/L_old;
-        %kesai=norm(mu_new-mu_old,2);
-    if kesai>0.01 && t<=30
+%         L_new= norm(train_y-T3*mu_new,2)+(2/rho_new)*norm(diag(eta_new)*mu_new,1);
+%         kesai=(abs(L_new-L_old))/L_old;
+        kesai=norm(mu_new-mu_old,2);
+    if kesai>0.05 && t<=30
         converged = false;
-%         mu_old=mu_new;
+        mu_old=mu_new;
         VARw_old=VARw_new;
         rho_old=rho_new;
         sig_old=sig_new;
         eta_old=eta_new;
-        L_old=L_new;
+        VAReta_old =VAReta_new;
+%         L_old=L_new;
     else
         converged = true;
         WeightTop = mu_new;
